@@ -1,43 +1,51 @@
 package by.tms.controller;
 
-import by.tms.entity.Calc;
+import by.tms.entity.Operation;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/calc")
 public class CalcController {
 
     @GetMapping()
-    public String calc(){
+    public String calc(@ModelAttribute("operation") Operation operation){
         return "calc";
     }
 
     @PostMapping
-    public String reg(Calc calc, Model model) {
-        double result = 0.0;
-        double value1 = calc.getValue1();
-        double value2 = calc.getValue2();
-        String operation = calc.getOperation();
-        switch (operation){
-            case "sum":
-                result = value1 + value2;
-                break;
-            case "dif":
-                result = value1 - value2;
-                break;
-            case "mult":
-                result = value1 * value2;
-                break;
-            case "div":
-                result = value1 / value2;
-                break;
+    public String reg(@ModelAttribute("operation") @Valid Operation operation, BindingResult bindingResult, Model model) {
+        if (!bindingResult.hasErrors()){
+            double result = 0.0;
+            double value1 = operation.getValue1();
+            double value2 = operation.getValue2();
+            String operation1 = operation.getOperation();
+            switch (operation1){
+                case "sum":
+                    result = value1 + value2;
+                    break;
+                case "dif":
+                    result = value1 - value2;
+                    break;
+                case "mult":
+                    result = value1 * value2;
+                    break;
+                case "div":
+                    result = value1 / value2;
+                    break;
+            }
+            model.addAttribute("result", result);
+            return "calc";
+        } else {
+            return "calc";
         }
-        model.addAttribute("result", result);
-        return "calc";
     }
 }

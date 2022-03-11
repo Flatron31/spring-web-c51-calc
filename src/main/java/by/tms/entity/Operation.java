@@ -1,11 +1,26 @@
 package by.tms.entity;
 
-public class Calc {
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
+
+public class Operation {
+    @NotEmpty (message = "Value should not be empty")
+    @NotBlank
+    @NotNull (message = "Value cannot be null")
     private double value1;
+
+    @NotEmpty (message = "Value should not be empty")
+    @NotBlank
+    @NotNull (message = "Value cannot be null")
     private double value2;
+
+    @NotEmpty
+    @NotNull (message = "Operation cannot be null")
     private String operation;
 
-    public Calc(double value1, double value2, String operation) {
+    public Operation(double value1, double value2, String operation) {
         this.value1 = value1;
         this.value2 = value2;
         this.operation = operation;
