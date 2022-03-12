@@ -22,30 +22,30 @@ public class CalcController {
     }
 
     @PostMapping
-    public String reg(@ModelAttribute("operation") @Valid Operation operation, BindingResult bindingResult, Model model) {
-        if (!bindingResult.hasErrors()){
-            double result = 0.0;
-            double value1 = operation.getValue1();
-            double value2 = operation.getValue2();
-            String operation1 = operation.getOperation();
-            switch (operation1){
-                case "sum":
-                    result = value1 + value2;
-                    break;
-                case "dif":
-                    result = value1 - value2;
-                    break;
-                case "mult":
-                    result = value1 * value2;
-                    break;
-                case "div":
-                    result = value1 / value2;
-                    break;
-            }
-            model.addAttribute("result", result);
-            return "calc";
-        } else {
+    public String calc(@ModelAttribute("operation") @Valid Operation operation, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()){
             return "calc";
         }
+
+        Double result = 0.0;
+        Double value1 = operation.getValue1();
+        Double value2 = operation.getValue2();
+        String operation1 = operation.getOperation();
+        switch (operation1){
+            case "sum":
+                result = value1 + value2;
+                break;
+            case "dif":
+                result = value1 - value2;
+                break;
+            case "mult":
+                result = value1 * value2;
+                break;
+            case "div":
+                result = value1 / value2;
+                break;
+            }
+            model.addAttribute("result", result);
+        return "calc";
     }
 }

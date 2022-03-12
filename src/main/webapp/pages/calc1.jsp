@@ -13,19 +13,19 @@
     <title>Calc</title>
 </head>
 <body>
-<%--<form action="/calc/" method="post">--%>
-<%--    <input type="text" name="value1" placeholder="Value1">--%>
-<%--    <select name="operation" required>--%>
-<%--        <option disabled selected>Choose operation</option>--%>
-<%--        <option value="sum">+</option>--%>
-<%--        <option value="div">/</option>--%>
-<%--        <option value="dif">-</option>--%>
-<%--        <option value="mult">*</option>--%>
-<%--    </select>--%>
-<%--    <input type="text" name="value2" placeholder="value2">--%>
-<%--    <button>Submit</button>--%>
-<%--    <p>${result}</p>--%>
-<%--</form>--%>
+<form action="/calc/" method="post">
+    <input type="text" name="value1" placeholder="Value1">
+    <select name="operation" required>
+        <option disabled selected>Choose operation</option>
+        <option value="sum">+</option>
+        <option value="div">/</option>
+        <option value="dif">-</option>
+        <option value="mult">*</option>
+    </select>
+    <input type="text" name="value2" placeholder="value2">
+    <button>Submit</button>
+    <p>${result}</p>
+</form>
 
 <s:form action="/calc" method="post" modelAttribute="operation">
 

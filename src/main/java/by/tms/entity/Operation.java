@@ -9,36 +9,36 @@ public class Operation {
     @NotEmpty (message = "Value should not be empty")
     @NotBlank
     @NotNull (message = "Value cannot be null")
-    private double value1;
+    private Double value1;
 
     @NotEmpty (message = "Value should not be empty")
     @NotBlank
     @NotNull (message = "Value cannot be null")
-    private double value2;
+    private Double value2;
 
     @NotEmpty
     @NotNull (message = "Operation cannot be null")
     private String operation;
 
-    public Operation(double value1, double value2, String operation) {
+    public Operation(Double value1, Double value2, String operation) {
         this.value1 = value1;
         this.value2 = value2;
         this.operation = operation;
     }
 
-    public double getValue1() {
+    public Double getValue1() {
         return value1;
     }
 
-    public void setValue1(double value1) {
+    public void setValue1(Double value1) {
         this.value1 = value1;
     }
 
-    public double getValue2() {
+    public Double getValue2() {
         return value2;
     }
 
-    public void setValue2(double value2) {
+    public void setValue2(Double value2) {
         this.value2 = value2;
     }
 
@@ -52,7 +52,7 @@ public class Operation {
 
     @Override
     public String toString() {
-        return "Calc{" +
+        return "Operation{" +
                 "value1=" + value1 +
                 ", value2=" + value2 +
                 ", operation='" + operation + '\'' +
