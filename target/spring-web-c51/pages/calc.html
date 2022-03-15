@@ -1,22 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Calc</title>
 </head>
 <body>
-<form action="/calc/" method="post">
-    <input type="text" name="value1" placeholder="Value1">
-    <select name="operation" required>
-        <option disabled selected>Choose operation</option>
+
+<form th:method="post" th:action="@{/calc}" th:object="${operation}">
+    <input type="text" th:field="*{value1}" id="value1" placeholder="Value 1">
+    <div th:if="${#fields.hasErrors('value1')}" th:errors="*{value1}">value1 error</div>
+
+    <select th:field="*{operation}" id="operation">
         <option value="sum">+</option>
-        <option value="div">/</option>
         <option value="dif">-</option>
         <option value="mult">*</option>
+        <option value="div">/</option>
     </select>
-    <input type="text" name="value2" placeholder="value2">
-    <button>Submit</button>
-    <p>${result}</p>
+    <div th:if="${#fields.hasErrors('operation')}" th:errors="*{operation}">operation error</div>
+
+
+    <input type="text" th:field="*{value2}" id="value2" placeholder="Value 2">
+    <div th:if="${#fields.hasErrors('value2')}" th:errors="*{value1}">value2 error</div>
+    <input type="submit" value="Result">
+    <td th:text="${result}"/>
 </form>
 
 </body>

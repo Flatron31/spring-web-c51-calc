@@ -21,7 +21,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 @Configuration
 @ComponentScan("by.tms")
 @EnableWebMvc
-public class WebConfiguration extends WebMvcConfigurerAdapter implements ApplicationContextAware {
+public class WebConfiguration extends WebMvcConfigurerAdapter implements ApplicationContextAware{
 
 	@Autowired
 	private TestInterceptor testInterceptor;

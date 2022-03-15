@@ -13,42 +13,26 @@
     <title>Calc</title>
 </head>
 <body>
-<form action="/calc/" method="post">
-    <input type="text" name="value1" placeholder="Value1">
-    <select name="operation" required>
-        <option disabled selected>Choose operation</option>
-        <option value="sum">+</option>
-        <option value="div">/</option>
-        <option value="dif">-</option>
-        <option value="mult">*</option>
-    </select>
-    <input type="text" name="value2" placeholder="value2">
-    <button>Submit</button>
-    <p>${result}</p>
-</form>
-
 <s:form action="/calc" method="post" modelAttribute="operation">
-
     <s:input path="value1" type="text" placeholder="Value1"/>
     <s:errors path="value1"/>
-
+    <br>
     <s:select path="operation">
-        <option disabled selected>Choose operation</option>
+<%--        <option disabled selected>Choose operation</option>--%>
         <option value="sum">+</option>
         <option value="div">/</option>
         <option value="dif">-</option>
         <option value="mult">*</option>
     </s:select>
     <s:errors path="operation"/>
-
+    <br>
     <s:input path="value2" placeholder="Value2"/>
     <s:errors path="value2"/>
-
+    <br>
     <s:button>Submit</s:button>
-    <td>${result}</td>
+     ${result}
 
 </s:form>
-
-
 </body>
 </html>
+

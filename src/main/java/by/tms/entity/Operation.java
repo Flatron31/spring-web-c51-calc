@@ -4,19 +4,23 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 public class Operation {
-    @NotEmpty (message = "Value should not be empty")
-    @NotBlank
+
+    //@NotEmpty (message = "Value should not be empty")
     @NotNull (message = "Value cannot be null")
+    //@Pattern(regexp = "^[-+]?[0-9]*[.,]?[0-9]+(?:[eE][-+]?[0-9]+)?$", message = "\n" +
+    //        "Invalid value")
     private Double value1;
 
-    @NotEmpty (message = "Value should not be empty")
-    @NotBlank
+    //@NotEmpty (message = "Value should not be empty")
     @NotNull (message = "Value cannot be null")
+    //@Pattern(regexp = "^[-+]?[0-9]*[.,]?[0-9]+(?:[eE][-+]?[0-9]+)?$", message = "\n" +
+    //        "Invalid value")
     private Double value2;
 
-    @NotEmpty
+//    @NotEmpty
     @NotNull (message = "Operation cannot be null")
     private String operation;
 
