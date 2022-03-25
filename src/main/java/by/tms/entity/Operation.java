@@ -1,48 +1,58 @@
 package by.tms.entity;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+@Entity
+@Table(name = "operations")
 public class Operation {
 
-    //@NotEmpty (message = "Value should not be empty")
-    @NotNull (message = "Value cannot be null")
-    //@Pattern(regexp = "^[-+]?[0-9]*[.,]?[0-9]+(?:[eE][-+]?[0-9]+)?$", message = "\n" +
-    //        "Invalid value")
-    private Double value1;
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private long id;
 
-    //@NotEmpty (message = "Value should not be empty")
+    @NotEmpty (message = "Value should not be empty")
     @NotNull (message = "Value cannot be null")
-    //@Pattern(regexp = "^[-+]?[0-9]*[.,]?[0-9]+(?:[eE][-+]?[0-9]+)?$", message = "\n" +
-    //        "Invalid value")
-    private Double value2;
+    @Pattern(regexp = "^[-+]?[0-9]*[.,]?[0-9]+(?:[eE][-+]?[0-9]+)?$", message = "\n" +
+            "Invalid value")
+    @Column(name = "o_name")
+    private String value1;
 
-//    @NotEmpty
+    @NotEmpty (message = "Value should not be empty")
+    @NotNull (message = "Value cannot be null")
+    @Pattern(regexp = "^[-+]?[0-9]*[.,]?[0-9]+(?:[eE][-+]?[0-9]+)?$", message = "\n" +
+            "Invalid value")
+    private String value2;
+
+    @NotEmpty
     @NotNull (message = "Operation cannot be null")
     private String operation;
 
-    public Operation(Double value1, Double value2, String operation) {
+    public Operation() {
+    }
+
+    public Operation(String value1, String value2, String operation) {
         this.value1 = value1;
         this.value2 = value2;
         this.operation = operation;
     }
 
-    public Double getValue1() {
+    public String getValue1() {
         return value1;
     }
 
-    public void setValue1(Double value1) {
+    public void setValue1(String value1) {
         this.value1 = value1;
     }
 
-    public Double getValue2() {
+    public String getValue2() {
         return value2;
     }
 
-    public void setValue2(Double value2) {
+    public void setValue2(String value2) {
         this.value2 = value2;
     }
 
@@ -57,8 +67,9 @@ public class Operation {
     @Override
     public String toString() {
         return "Operation{" +
-                "value1=" + value1 +
-                ", value2=" + value2 +
+                "id=" + id +
+                ", value1='" + value1 + '\'' +
+                ", value2='" + value2 + '\'' +
                 ", operation='" + operation + '\'' +
                 '}';
     }

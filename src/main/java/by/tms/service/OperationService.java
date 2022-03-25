@@ -6,8 +6,8 @@ public class OperationService {
 
     public static Double getResultOperation(Operation operation) {
         Double result = 0.0;
-        Double value1 = operation.getValue1();
-        Double value2 = operation.getValue2();
+        Double value1 = Double.parseDouble(operation.getValue1());
+        Double value2 = Double.parseDouble(operation.getValue2());
         String operation1 = operation.getOperation();
         switch (operation1) {
             case "sum":

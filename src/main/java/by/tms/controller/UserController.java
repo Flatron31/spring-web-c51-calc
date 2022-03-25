@@ -1,45 +1,86 @@
 package by.tms.controller;
 
+import by.tms.dao.UserDaoHibernate;
 import by.tms.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import javax.naming.Binding;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
+
 
 @Controller
-@RequestMapping("/user")
 public class UserController {
+	@Autowired
+	private UserDaoHibernate userDAOHibernate;
+
+	@GetMapping
+	public String home() {
+		if (userDAOHibernate.findById(1) == null) {
+			userDAOHibernate.save(new User("test1", "test1"));
+			userDAOHibernate.save(new User("test2", "test2"));
+			userDAOHibernate.save(new User("test3", "test3"));
+			userDAOHibernate.save(new User("test4", "test4"));
+		}
+		return "user/index";
+	}
 
 	@GetMapping("/reg")
-	public String reg(@ModelAttribute("newUser") User user, Model model) {
-		return "reg";
+	public String reg(@ModelAttribute("user") User user) {
+		return "user/reg";
 	}
 
 	@PostMapping("/reg")
-	// результат должен быть после валидируемой модели
-
-	public String reg(@Valid @ModelAttribute("newUser") User user, BindingResult bindingResult, Model model) {
-		if (bindingResult.hasGlobalErrors()) {
-//			Map<String, String> map = new HashMap<>();
-			for (FieldError fieldError: bindingResult.getFieldErrors()) {
-				model.addAttribute(fieldError.getField(), fieldError.getDefaultMessage());
-//				map.put(fieldError.getField(), fieldError.getDefaultMessage());
-			}
-//		model.addAllAttributes(map);
-			return "reg";
+	public String reg(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()){
+			return "user/reg";
 		}
-
-		System.out.println(bindingResult.hasErrors());
-		model.addAttribute("myName", user.getName());
-		model.addAttribute("myPassword", user.getPassword());
-
-
-		return "test";
+		userDAOHibernate.save(user);
+		return "redirect:/";
 	}
+
+	@GetMapping("/login")
+	public String login(@ModelAttribute("user") User user){
+		return "user/login";
+	}
+
+	@PostMapping("/login")
+	public String login(@Valid @ModelAttribute("user") User user, BindingResult bindingResult,
+						HttpSession session, Model model){
+		if (bindingResult.hasErrors()){
+			return "user/login";
+		}
+		User userFromDB = new User();
+
+		if (userDAOHibernate.findByUsername(user.getName()) != null) {
+			userFromDB = userDAOHibernate.findByUsername(user.getName());
+			if (userFromDB.getPassword().equals(user.getPassword())) {
+				session.setAttribute("user", userFromDB);
+			}
+		} else {
+			model.addAttribute("messageError", "User exist");
+			return "user/login";
+		}
+		return "user/index";
+	}
+
+	@GetMapping("/logout")
+	public String logout(HttpSession session){
+		if (session.getAttribute("user") == null){
+			return "redirect:/";
+		} else {
+			session.invalidate();
+		}
+		return "redirect:/";
+	}
+
+
+
+
+
+
+
 }
