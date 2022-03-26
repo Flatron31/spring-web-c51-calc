@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -20,6 +21,18 @@ public class User {
 	@NotBlank(message = "Must be")
 	@NotEmpty(message = "Must be")
 	private String password;
+
+	@OneToMany (mappedBy = "user")
+	@JoinColumn (name = "OPERATION_ID")
+	private List<Operation> operation;
+
+	public List<Operation> getOperation() {
+		return operation;
+	}
+
+	public void setOperation(List<Operation> operation) {
+		this.operation = operation;
+	}
 
 //	@OneToMany(cascade = CascadeType.ALL)
 //	private Addres addres;

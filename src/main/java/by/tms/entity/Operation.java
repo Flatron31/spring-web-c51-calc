@@ -31,6 +31,16 @@ public class Operation {
     @NotNull (message = "Operation cannot be null")
     private String operation;
 
+    private String result;
+
+    @ManyToOne (cascade = CascadeType.ALL)
+    @JoinColumn(name = "USER_ID")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
     public Operation() {
     }
 
@@ -38,6 +48,14 @@ public class Operation {
         this.value1 = value1;
         this.value2 = value2;
         this.operation = operation;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getValue1() {
@@ -62,6 +80,18 @@ public class Operation {
 
     public void setOperation(String operation) {
         this.operation = operation;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

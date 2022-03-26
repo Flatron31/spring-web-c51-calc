@@ -14,16 +14,20 @@ import javax.validation.Valid;
 
 @Controller
 public class UserController {
+
 	@Autowired
 	private UserDaoHibernate userDAOHibernate;
+
+	private static long COUNT;
 
 	@GetMapping
 	public String home() {
 		if (userDAOHibernate.findById(1) == null) {
-			userDAOHibernate.save(new User("test1", "test1"));
-			userDAOHibernate.save(new User("test2", "test2"));
-			userDAOHibernate.save(new User("test3", "test3"));
-			userDAOHibernate.save(new User("test4", "test4"));
+			userDAOHibernate.save(new User(++COUNT,"test1", "test1"));
+			userDAOHibernate.save(new User(++COUNT,"test2", "test2"));
+			userDAOHibernate.save(new User(++COUNT,"test3", "test3"));
+			userDAOHibernate.save(new User(++COUNT,"test4", "test4"));
+			userDAOHibernate.save(new User(++COUNT,"test5", "test5"));
 		}
 		return "user/index";
 	}

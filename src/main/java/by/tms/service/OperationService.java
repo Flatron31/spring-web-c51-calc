@@ -5,7 +5,7 @@ import by.tms.entity.Operation;
 public class OperationService {
 
     public static Double getResultOperation(Operation operation) {
-        Double result = 0.0;
+        double result = 0.0;
         Double value1 = Double.parseDouble(operation.getValue1());
         Double value2 = Double.parseDouble(operation.getValue2());
         String operation1 = operation.getOperation();

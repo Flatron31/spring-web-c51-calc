@@ -27,7 +27,10 @@ public class CalcController {
         if (bindingResult.hasErrors()) {
             return "calc";
         }
-        model.addAttribute("result", OperationService.getResultOperation(operation));
+        Double res = OperationService.getResultOperation(operation);
+        model.addAttribute("result",res);
+        operation.setResult(res.toString());
         return "calc";
     }
+
 }

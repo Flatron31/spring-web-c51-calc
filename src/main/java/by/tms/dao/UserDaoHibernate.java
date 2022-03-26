@@ -13,9 +13,9 @@ import java.util.List;
 @Repository
 @Transactional
 public class UserDaoHibernate {
+
     @Autowired
     private SessionFactory sessionFactory;
-
 
     public void save(User user){
         Session session = sessionFactory.openSession();
@@ -68,8 +68,4 @@ public class UserDaoHibernate {
         session.close();
         return singleResult;
     }
-
-
-
-
 }
