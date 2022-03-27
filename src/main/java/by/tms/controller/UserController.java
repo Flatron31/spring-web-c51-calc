@@ -18,16 +18,16 @@ public class UserController {
 	@Autowired
 	private UserDaoHibernate userDAOHibernate;
 
-	private static long COUNT;
+	private static long idUserCOUNT;
 
 	@GetMapping
 	public String home() {
 		if (userDAOHibernate.findById(1) == null) {
-			userDAOHibernate.save(new User(++COUNT,"test1", "test1"));
-			userDAOHibernate.save(new User(++COUNT,"test2", "test2"));
-			userDAOHibernate.save(new User(++COUNT,"test3", "test3"));
-			userDAOHibernate.save(new User(++COUNT,"test4", "test4"));
-			userDAOHibernate.save(new User(++COUNT,"test5", "test5"));
+			userDAOHibernate.save(new User(++idUserCOUNT,"test1", "test1"));
+			userDAOHibernate.save(new User(++idUserCOUNT,"test2", "test2"));
+			userDAOHibernate.save(new User(++idUserCOUNT,"test3", "test3"));
+			userDAOHibernate.save(new User(++idUserCOUNT,"test4", "test4"));
+			userDAOHibernate.save(new User(++idUserCOUNT,"test5", "test5"));
 		}
 		return "user/index";
 	}
@@ -81,6 +81,16 @@ public class UserController {
 		return "redirect:/";
 	}
 
+	@GetMapping("/profile")
+	public String index(Model model){
+		model.addAttribute("users", userDAOHibernate.findAll());
+		return "user/index1";
+	}
+	@GetMapping("/{id}")
+	public String show(@PathVariable("id") int id, Model model){
+		model.addAttribute("user", userDAOHibernate.findById(id));
+		return "user/show";
+	}
 
 
 

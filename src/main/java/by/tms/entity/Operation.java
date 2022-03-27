@@ -18,7 +18,6 @@ public class Operation {
     @NotNull (message = "Value cannot be null")
     @Pattern(regexp = "^[-+]?[0-9]*[.,]?[0-9]+(?:[eE][-+]?[0-9]+)?$", message = "\n" +
             "Invalid value")
-    @Column(name = "o_name")
     private String value1;
 
     @NotEmpty (message = "Value should not be empty")
@@ -31,7 +30,7 @@ public class Operation {
     @NotNull (message = "Operation cannot be null")
     private String operation;
 
-    private String result;
+    private double result;
 
     @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "USER_ID")
@@ -82,11 +81,11 @@ public class Operation {
         this.operation = operation;
     }
 
-    public String getResult() {
+    public double getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(double result) {
         this.result = result;
     }
 
@@ -101,6 +100,7 @@ public class Operation {
                 ", value1='" + value1 + '\'' +
                 ", value2='" + value2 + '\'' +
                 ", operation='" + operation + '\'' +
+                ", result=" + result +
                 '}';
     }
 }

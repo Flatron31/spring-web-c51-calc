@@ -18,28 +18,28 @@ public class UserDaoHibernate {
     private SessionFactory sessionFactory;
 
     public void save(User user){
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         session.save(user);
-        session.close();
+        //session.close();
     }
 
     public User findById(long id){
-        Session session = sessionFactory.openSession();// коррентсесию
+        Session session = sessionFactory.getCurrentSession();// коррентсесию
         User user = session.get(User.class, id);
-        session.close();
+        //session.close();
         return user;
     }
 
     public void remove(User user){
-        Session session = sessionFactory.openSession(); //посмотреть ремув как разбирает юзера
+        Session session = sessionFactory.getCurrentSession(); //посмотреть ремув как разбирает юзера
         session.remove(user);
-        session.close();
+        //session.close();
     }
 
     public void update(User user){
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession() ;
         session.update(user);
-        session.close();
+        //session.close();
     }
 
     public List<User> findAllByName(String name){

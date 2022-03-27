@@ -22,8 +22,7 @@ public class User {
 	@NotEmpty(message = "Must be")
 	private String password;
 
-	@OneToMany (mappedBy = "user")
-	@JoinColumn (name = "OPERATION_ID")
+	@OneToMany (cascade = CascadeType.ALL)
 	private List<Operation> operation;
 
 	public List<Operation> getOperation() {
@@ -34,8 +33,6 @@ public class User {
 		this.operation = operation;
 	}
 
-//	@OneToMany(cascade = CascadeType.ALL)
-//	private Addres addres;
 
 	public User(String name, String password) {
 		this.name = name;

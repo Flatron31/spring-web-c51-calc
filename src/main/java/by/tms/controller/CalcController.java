@@ -1,7 +1,10 @@
 package by.tms.controller;
 
+import by.tms.dao.OperationDaoHibernate;
 import by.tms.entity.Operation;
+import by.tms.entity.User;
 import by.tms.service.OperationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
@@ -17,6 +20,9 @@ import javax.validation.Valid;
 @RequestMapping("/calc")
 public class CalcController {
 
+    @Autowired
+    private OperationDaoHibernate operationDaoHibernate;
+
     @GetMapping()
     public String calc(@ModelAttribute("operation") Operation operation) {
         return "calc";
@@ -29,8 +35,19 @@ public class CalcController {
         }
         Double res = OperationService.getResultOperation(operation);
         model.addAttribute("result",res);
-        operation.setResult(res.toString());
+        operation.setResult(res);
+        operationDaoHibernate.saveOperation(operation);
         return "calc";
+    }
+
+    @GetMapping("/history")
+    public String history(@ModelAttribute("user") User user){
+        return "user/history";
+    }
+    @PostMapping("/history")
+    public String history(@ModelAttribute("user") User user, Model model){
+        model.addAttribute("user", user.getOperation());
+        return "user/history";
     }
 
 }
