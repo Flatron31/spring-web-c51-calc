@@ -20,26 +20,22 @@ public class UserDaoHibernate {
     public void save(User user){
         Session session = sessionFactory.getCurrentSession();
         session.save(user);
-        //session.close();
     }
 
     public User findById(long id){
-        Session session = sessionFactory.getCurrentSession();// коррентсесию
+        Session session = sessionFactory.getCurrentSession();
         User user = session.get(User.class, id);
-        //session.close();
         return user;
     }
 
     public void remove(User user){
-        Session session = sessionFactory.getCurrentSession(); //посмотреть ремув как разбирает юзера
+        Session session = sessionFactory.getCurrentSession();
         session.remove(user);
-        //session.close();
     }
 
     public void update(User user){
         Session session = sessionFactory.getCurrentSession() ;
         session.update(user);
-        //session.close();
     }
 
     public List<User> findAllByName(String name){

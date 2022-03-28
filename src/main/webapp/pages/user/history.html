@@ -18,7 +18,7 @@
 
             <div th:if="${session.user}">
                 <a class="navbar-brand" href="/calc">Calculator</a>
-                <a class="navbar-brand" href="/{id}">Profile</a>
+                <a class="navbar-brand" href="@{${session.user.getId()}}">Profile</a>
                 <a class="navbar-brand" href="/logout">Logout</a>
             </div>
 
@@ -28,13 +28,7 @@
 
 <br>
 
-<div th:each="">
-
-</div>
-
-
-
-
+<div th:each="hist : ${history}"/>
 
 
 </body>

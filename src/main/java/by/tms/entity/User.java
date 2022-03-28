@@ -22,7 +22,8 @@ public class User {
 	@NotEmpty(message = "Must be")
 	private String password;
 
-	@OneToMany (cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id")
 	private List<Operation> operation;
 
 	public List<Operation> getOperation() {
@@ -32,7 +33,6 @@ public class User {
 	public void setOperation(List<Operation> operation) {
 		this.operation = operation;
 	}
-
 
 	public User(String name, String password) {
 		this.name = name;

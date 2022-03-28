@@ -32,14 +32,6 @@ public class Operation {
 
     private double result;
 
-    @ManyToOne (cascade = CascadeType.ALL)
-    @JoinColumn(name = "USER_ID")
-    private User user;
-
-    public User getUser() {
-        return user;
-    }
-
     public Operation() {
     }
 
@@ -87,10 +79,6 @@ public class Operation {
 
     public void setResult(double result) {
         this.result = result;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     @Override

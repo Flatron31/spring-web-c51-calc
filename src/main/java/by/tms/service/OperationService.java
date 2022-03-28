@@ -25,5 +25,4 @@ public class OperationService {
         }
         return result;
     }
-
 }
