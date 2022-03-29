@@ -1,7 +1,7 @@
 package by.tms.controller;
 
-import by.tms.dao.OperationDaoHibernate;
-import by.tms.dao.UserDaoHibernate;
+import by.tms.dao.hibernate.OperationDaoHibernate;
+import by.tms.dao.hibernate.UserDaoHibernate;
 import by.tms.entity.Operation;
 import by.tms.entity.User;
 import by.tms.service.OperationService;
@@ -17,7 +17,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/calc")
 public class CalcController {
 
     @Autowired
@@ -27,16 +26,16 @@ public class CalcController {
     private UserDaoHibernate userDaoHibernate;
 
 
-    @GetMapping()
+    @GetMapping("/calc")
     public String calc(@ModelAttribute("operation") Operation operation) {
-        return "calc";
+        return "calc/calc";
     }
 
-    @PostMapping
+    @PostMapping("/calc")
     public String calc(@ModelAttribute("operation") @Valid Operation operation, BindingResult bindingResult,
                        HttpSession session, Model model) {
         if (bindingResult.hasErrors()) {
-            return "calc";
+            return "calc/calc";
         }
         Double res = OperationService.getResultOperation(operation);
         model.addAttribute("result",res);
@@ -47,7 +46,7 @@ public class CalcController {
         operationList.add(operation);
         user.setOperation(operationList);
         userDaoHibernate.save(user);
-        return "calc";
+        return "calc/calc";
     }
 
     @GetMapping("/history")

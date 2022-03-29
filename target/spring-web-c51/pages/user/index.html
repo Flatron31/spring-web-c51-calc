@@ -18,8 +18,8 @@
 
             <div th:if="${session.user}">
                 <a class="navbar-brand" href="/calc">Calculator</a>
-                <a class="navbar-brand" href="/calc/history">History</a>
-                <a class="navbar-brand" href="@{${session.user.getId()}}">Profile</a>
+                <a class="navbar-brand" href="/history">History</a>
+                <a class="navbar-brand" th:href="@{${session.user.getId()} + '/edit'}">Profile</a>
                 <a class="navbar-brand" href="/logout">Logout</a>
             </div>
 

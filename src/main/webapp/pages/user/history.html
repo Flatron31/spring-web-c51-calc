@@ -18,7 +18,6 @@
 
             <div th:if="${session.user}">
                 <a class="navbar-brand" href="/calc">Calculator</a>
-                <a class="navbar-brand" href="@{${session.user.getId()}}">Profile</a>
                 <a class="navbar-brand" href="/logout">Logout</a>
             </div>
 
@@ -28,8 +27,13 @@
 
 <br>
 
-<div th:each="hist : ${history}"/>
+<div th:each="operation : ${history}">
+    <p th:text="${operation.getValue1() + ' ' + operation.getOperation() + ' ' + operation.getResult() + ' = ' + operation.getResult() }"></p>
+</div>
 
+<div th:if="${#lists.isEmpty(history)}">
+    History is empty
+</div>
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-package by.tms.dao;
+package by.tms.dao.hibernate;
 
 import by.tms.entity.User;
 import org.hibernate.Session;
@@ -35,7 +35,7 @@ public class UserDaoHibernate {
 
     public void update(User user){
         Session session = sessionFactory.getCurrentSession() ;
-        session.update(user);
+        session.merge(user);
     }
 
     public List<User> findAllByName(String name){
@@ -44,7 +44,6 @@ public class UserDaoHibernate {
         query.setParameter("name", name);
         List<User> resultLst = query.getResultList();
         session.close();
-
         //query.getSingleResult();// если будет больше одного то ексепшен
         return resultLst;
     }

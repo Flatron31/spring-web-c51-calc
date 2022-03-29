@@ -1,6 +1,6 @@
 package by.tms.controller;
 
-import by.tms.dao.UserDaoHibernate;
+import by.tms.dao.hibernate.UserDaoHibernate;
 import by.tms.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
 
 @Controller
 public class UserController {
@@ -58,7 +57,6 @@ public class UserController {
 			return "user/login";
 		}
 		User userFromDB = new User();
-
 		if (userDAOHibernate.findByUsername(user.getName()) != null) {
 			userFromDB = userDAOHibernate.findByUsername(user.getName());
 			if (userFromDB.getPassword().equals(user.getPassword())) {
@@ -81,20 +79,28 @@ public class UserController {
 		return "redirect:/";
 	}
 
-	@GetMapping("/profile")
-	public String index(Model model){
-		model.addAttribute("users", userDAOHibernate.findAll());
-		return "user/index1";
-	}
-	@GetMapping("/{id}")
-	public String show(@PathVariable("id") int id, Model model){
+	@GetMapping("/{id}/edit")
+	public String edit(Model model, @PathVariable("id") long id){
+
 		model.addAttribute("user", userDAOHibernate.findById(id));
-		return "user/show";
+		return "user/edit";
 	}
 
+	@PatchMapping("/{id}")
+	public String update(@Valid @ModelAttribute("user") User user,BindingResult bindingResult, HttpSession session){
+		if (bindingResult.hasErrors()){
+			return "user/edit";
+		}
+		session.setAttribute("user", user);
+		userDAOHibernate.update(user);
+		return "redirect:/";
+	}
 
-
-
-
-
+	@DeleteMapping("/{id}")
+	public String delete(@PathVariable("id") long id, HttpSession session) {
+		User user = userDAOHibernate.findById(id);
+        userDAOHibernate.remove(user);
+		session.invalidate();
+		return "redirect:/";
+    }
 }
