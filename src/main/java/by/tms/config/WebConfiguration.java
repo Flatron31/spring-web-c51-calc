@@ -2,6 +2,7 @@ package by.tms.config;
 
 import by.tms.TestInterceptor;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -11,6 +12,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -87,22 +90,38 @@ public class  WebConfiguration extends WebMvcConfigurerAdapter implements Applic
 		return dataSource;
 	}
 
-	@Bean
-	public LocalSessionFactoryBean sessionFactory() {
-		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-		sessionFactory.setDataSource(dataSource());
-		sessionFactory.setPackagesToScan("by.tms.entity");
-		sessionFactory.setHibernateProperties(hibernateProperties());
+//	@Bean
+//	public LocalSessionFactoryBean sessionFactory() {
+//		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+//		sessionFactory.setDataSource(dataSource());
+//		sessionFactory.setPackagesToScan("by.tms.entity");
+//		sessionFactory.setHibernateProperties(hibernateProperties());
+//		return sessionFactory;
+//	}
+//
+//	@Bean
+//	public PlatformTransactionManager hibernateTransactionManager() {
+//		HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+//		transactionManager.setSessionFactory(sessionFactory().getObject());
+//		return transactionManager;
+//	}
 
-		return sessionFactory;
+	// Add JPA
+	@Bean
+	public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(){
+		LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+		localContainerEntityManagerFactoryBean.setJpaProperties(hibernateProperties());
+		localContainerEntityManagerFactoryBean.setDataSource(dataSource());
+		localContainerEntityManagerFactoryBean.setPersistenceProvider(new HibernatePersistenceProvider());
+		localContainerEntityManagerFactoryBean.setPackagesToScan("by.tms");
+		return localContainerEntityManagerFactoryBean;
 	}
 
 	@Bean
-	public PlatformTransactionManager hibernateTransactionManager() {
-		HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-		transactionManager.setSessionFactory(sessionFactory().getObject());
-
-		return transactionManager;
+	public PlatformTransactionManager platformTransactionManager(){
+		JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
+		jpaTransactionManager.setEntityManagerFactory(entityManagerFactoryBean().getObject());
+		return jpaTransactionManager;
 	}
 
 	private Properties hibernateProperties() {
@@ -110,11 +129,11 @@ public class  WebConfiguration extends WebMvcConfigurerAdapter implements Applic
 		hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 		// при этой стратегии создает автоматически связи под наши сущности
 		 hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-		// для каждой базы генерит диалект
 		hibernateProperties.setProperty("show_sql", "true");
-
 		return hibernateProperties;
 	}
+
+
 
 
 
