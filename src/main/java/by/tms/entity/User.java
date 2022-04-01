@@ -31,6 +31,9 @@ public class User {
 	}
 
 	public void setOperation(List<Operation> operation) {
+//		if (operation != null) {
+//			operation.forEach(o->o.set);
+//		}
 		this.operation = operation;
 	}
 

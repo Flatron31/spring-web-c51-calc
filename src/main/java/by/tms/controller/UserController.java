@@ -1,6 +1,6 @@
 package by.tms.controller;
 
-import by.tms.dao.hibernate.UserDaoHibernate;
+import by.tms.dao.jpa.JpaUserDao;
 import by.tms.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,19 +14,22 @@ import javax.validation.Valid;
 @Controller
 public class UserController {
 
+//	@Autowired
+//	private HibernateUserDao userDAOHibernate;
+
 	@Autowired
-	private UserDaoHibernate userDAOHibernate;
+	private JpaUserDao jpaUserDao;
 
 	private static long idUserCOUNT;
 
 	@GetMapping
 	public String home() {
-		if (userDAOHibernate.findById(1) == null) {
-			userDAOHibernate.save(new User(++idUserCOUNT,"test1", "test1"));
-			userDAOHibernate.save(new User(++idUserCOUNT,"test2", "test2"));
-			userDAOHibernate.save(new User(++idUserCOUNT,"test3", "test3"));
-			userDAOHibernate.save(new User(++idUserCOUNT,"test4", "test4"));
-			userDAOHibernate.save(new User(++idUserCOUNT,"test5", "test5"));
+		if (jpaUserDao.findById(1) == null) {
+			jpaUserDao.save(new User("test1", "test1"));
+			jpaUserDao.save(new User("test2", "test2"));
+			jpaUserDao.save(new User("test3", "test3"));
+			jpaUserDao.save(new User("test4", "test4"));
+			jpaUserDao.save(new User("test5", "test5"));
 		}
 		return "user/index";
 	}
@@ -41,7 +44,8 @@ public class UserController {
 		if (bindingResult.hasErrors()){
 			return "user/reg";
 		}
-		userDAOHibernate.save(user);
+		//userDAOHibernate.save(user);
+		jpaUserDao.save(user);
 		return "redirect:/";
 	}
 
@@ -57,8 +61,10 @@ public class UserController {
 			return "user/login";
 		}
 		User userFromDB = new User();
-		if (userDAOHibernate.findByUsername(user.getName()) != null) {
-			userFromDB = userDAOHibernate.findByUsername(user.getName());
+//		if (userDAOHibernate.findByUsername(user.getName()) != null) {
+//			userFromDB = userDAOHibernate.findByUsername(user.getName());
+		if (jpaUserDao.findByUsername(user.getName()) != null) {
+			userFromDB = jpaUserDao.findByUsername(user.getName());
 			if (userFromDB.getPassword().equals(user.getPassword())) {
 				session.setAttribute("user", userFromDB);
 			}
@@ -81,8 +87,8 @@ public class UserController {
 
 	@GetMapping("/{id}/edit")
 	public String edit(Model model, @PathVariable("id") long id){
-
-		model.addAttribute("user", userDAOHibernate.findById(id));
+//		model.addAttribute("user", userDAOHibernate.findById(id));
+		model.addAttribute("user", jpaUserDao.findById(id));
 		return "user/edit";
 	}
 
@@ -92,14 +98,17 @@ public class UserController {
 			return "user/edit";
 		}
 		session.setAttribute("user", user);
-		userDAOHibernate.update(user);
+		//userDAOHibernate.update(user);
+		jpaUserDao.update(user);
 		return "redirect:/";
 	}
 
 	@DeleteMapping("/{id}")
 	public String delete(@PathVariable("id") long id, HttpSession session) {
-		User user = userDAOHibernate.findById(id);
-        userDAOHibernate.remove(user);
+//		User user = userDAOHibernate.findById(id);
+//        userDAOHibernate.remove(user);
+		User user = jpaUserDao.findById(id);
+		jpaUserDao.remove(user);
 		session.invalidate();
 		return "redirect:/";
     }

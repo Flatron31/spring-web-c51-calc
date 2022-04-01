@@ -1,7 +1,9 @@
 package by.tms.controller;
 
-import by.tms.dao.hibernate.OperationDaoHibernate;
-import by.tms.dao.hibernate.UserDaoHibernate;
+import by.tms.dao.hibernate.HibernateOperationDao;
+import by.tms.dao.hibernate.HibernateUserDao;
+import by.tms.dao.jpa.JpaOperationDao;
+import by.tms.dao.jpa.JpaUserDao;
 import by.tms.entity.Operation;
 import by.tms.entity.User;
 import by.tms.service.OperationService;
@@ -18,12 +20,17 @@ import java.util.List;
 
 @Controller
 public class CalcController {
+//    @Autowired
+//    private HibernateOperationDao operationDaoHibernate;
+//
+//    @Autowired
+//    private HibernateUserDao userDaoHibernate;
 
     @Autowired
-    private OperationDaoHibernate operationDaoHibernate;
+    private JpaUserDao jpaUserDao;
 
     @Autowired
-    private UserDaoHibernate userDaoHibernate;
+    private JpaOperationDao jpaOperationDao;
 
 
     @GetMapping("/calc")
@@ -38,19 +45,21 @@ public class CalcController {
             return "calc/calc";
         }
         Double res = OperationService.getResultOperation(operation);
-        model.addAttribute("result",res);
+        model.addAttribute("result", res);
         operation.setResult(res);
-        operationDaoHibernate.saveOperation(operation);
+//        operationDaoHibernate.saveOperation(operation);
+        jpaOperationDao.saveOperation(operation);
         User user = (User) session.getAttribute("user");
         List<Operation> operationList = user.getOperation();
         operationList.add(operation);
         user.setOperation(operationList);
-        userDaoHibernate.save(user);
+//        userDaoHibernate.save(user);
+        jpaUserDao.update(user);
         return "calc/calc";
     }
 
     @GetMapping("/history")
-    public String history(@ModelAttribute("operation") Operation operation, HttpSession session, Model model){
+    public String history(@ModelAttribute("operation") Operation operation, HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
         model.addAttribute("history", user.getOperation());
         return "user/history";
